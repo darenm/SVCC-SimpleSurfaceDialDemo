@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.UI;
+using Windows.UI.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
@@ -17,6 +20,8 @@ namespace SimpleSurfaceDialDemo
 
         private SolidColorBrush _backgroundBrush;
         private SolidColorBrush _previewColorBrush;
+        private RadialController _dial;
+        private Slider _dialControlledSlider;
 
         #endregion
 
@@ -49,6 +54,50 @@ namespace SimpleSurfaceDialDemo
             BackgroundBrush = new SolidColorBrush(Colors.White);
             PreviewColorBrush = new SolidColorBrush(Colors.Black);
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(Object sender, RoutedEventArgs e)
+        {
+            // Clear menu
+            var dialConfig = RadialControllerConfiguration.GetForCurrentView();
+
+            // And just leave the volume control
+            dialConfig.SetDefaultMenuItems(new [] {RadialControllerSystemMenuItemKind.Volume});
+
+            _dial = RadialController.CreateForCurrentView();
+
+            _dial.RotationResolutionInDegrees = 1;
+            _dial.UseAutomaticHapticFeedback = false;
+
+            var redMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Red", "R", "Segoe UI");
+            redMenuItem.Invoked += (item, args) => SetDialControlledSlider(RedSlider);
+            _dial.Menu.Items.Add(redMenuItem);
+
+            var greenMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Green", "G", "Segoe UI");
+            greenMenuItem.Invoked += (item, args) => SetDialControlledSlider(GreenSlider);
+            _dial.Menu.Items.Add(greenMenuItem);
+
+            var blueMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Blue", "B", "Segoe UI");
+            blueMenuItem.Invoked += (item, args) => SetDialControlledSlider(BlueSlider);
+            _dial.Menu.Items.Add(blueMenuItem);
+
+            _dial.ButtonClicked += (controller, args) => ApplyPreviewColor();
+            _dial.RotationChanged += (controller, args) =>
+            {
+
+                if (_dialControlledSlider.Value + args.RotationDeltaInDegrees >= _dialControlledSlider.Minimum &&
+                    _dialControlledSlider.Value + args.RotationDeltaInDegrees <= _dialControlledSlider.Maximum)
+                {
+                    _dialControlledSlider.Value += args.RotationDeltaInDegrees;
+                }
+            };
+        }
+
+        private void SetDialControlledSlider(Slider slider)
+        {
+            _dialControlledSlider = slider;
+            _dialControlledSlider.Focus(FocusState.Programmatic);
         }
 
 
