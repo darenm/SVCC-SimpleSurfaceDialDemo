@@ -1,0 +1,53 @@
+﻿<Page
+    x:Class="SimpleSurfaceDialDemo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SimpleSurfaceDialDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="ColorSlider" TargetType="Slider">
+            <Setter Property="Maximum" Value="255"/>
+            <Setter Property="Minimum" Value="0"/>
+            <Setter Property="StepFrequency" Value="1"/>
+            <Setter Property="TickFrequency" Value="10"/>
+            <Setter Property="TickPlacement" Value="BottomRight"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{x:Bind BackgroundBrush, Mode=OneWay}">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="400">
+            
+            <Slider Header="Red" 
+                    x:Name="RedSlider"
+                    Style="{StaticResource ColorSlider}"
+                    ValueChanged="{x:Bind UpdatePreviewColor}"/>
+            
+            <Slider Header="Green" 
+                    x:Name="GreenSlider"
+                    Style="{StaticResource ColorSlider}"
+                    ValueChanged="{x:Bind UpdatePreviewColor}"/>
+            
+            <Slider Header="Blue" 
+                    x:Name="BlueSlider"
+                    Style="{StaticResource ColorSlider}"
+                    ValueChanged="{x:Bind UpdatePreviewColor}"/>
+            
+            <Rectangle x:Name="ColorPreview"
+                       Stroke="Black"
+                       StrokeThickness="2"
+                       Margin="24"
+                       Width="200"
+                       Height="200"
+                       Fill="{x:Bind PreviewColorBrush, Mode=OneWay}"/>
+            
+            <Button Click="{x:Bind ApplyPreviewColor}"
+                    HorizontalAlignment="Center"
+                    Margin="24">Apply</Button>
+        </StackPanel>
+
+    </Grid>
+</Page>
