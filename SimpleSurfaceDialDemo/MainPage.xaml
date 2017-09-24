@@ -20,7 +20,7 @@
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="#66FFFFFF"
-                    Margin="24"
+                    Padding="24"
                     Width="400">
             
             <Slider Header="Red" 
