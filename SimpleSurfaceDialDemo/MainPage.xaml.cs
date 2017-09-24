@@ -16,6 +16,7 @@ namespace SimpleSurfaceDialDemo
         #region Fields
 
         private SolidColorBrush _backgroundBrush;
+        private SolidColorBrush _lastBackgroundBrush;
         private SolidColorBrush _previewColorBrush;
 
         #endregion
@@ -27,6 +28,7 @@ namespace SimpleSurfaceDialDemo
             get => _backgroundBrush;
             set
             {
+                _lastBackgroundBrush = _backgroundBrush;
                 _backgroundBrush = value;
                 OnPropertyChanged();
             }
@@ -57,6 +59,11 @@ namespace SimpleSurfaceDialDemo
         public void ApplyPreviewColor()
         {
             BackgroundBrush = PreviewColorBrush;
+        }
+
+        public void UndoPreviewColor()
+        {
+            BackgroundBrush = _lastBackgroundBrush;
         }
 
         public void UpdatePreviewColor()
