@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -70,15 +71,20 @@ namespace SimpleSurfaceDialDemo
             _dial.RotationResolutionInDegrees = 1;
             _dial.UseAutomaticHapticFeedback = false;
 
-            var redMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Red", "R", "Segoe UI");
+            //var redMenuItem = RadialControllerMenuItem.CreateFromKnownIcon("Red", RadialControllerMenuKnownIcon.Ruler);
+            //var redMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Red", "R", "Segoe UI");
+            var redIcon = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/RedColor.png"));
+            var redMenuItem = RadialControllerMenuItem.CreateFromIcon("Red", redIcon);
             redMenuItem.Invoked += (item, args) => SetDialControlledSlider(RedSlider);
             _dial.Menu.Items.Add(redMenuItem);
 
-            var greenMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Green", "G", "Segoe UI");
+            var greenIcon = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/GreenColor.png"));
+            var greenMenuItem = RadialControllerMenuItem.CreateFromIcon("Green", greenIcon);
             greenMenuItem.Invoked += (item, args) => SetDialControlledSlider(GreenSlider);
             _dial.Menu.Items.Add(greenMenuItem);
 
-            var blueMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Blue", "B", "Segoe UI");
+            var blueIcon = RandomAccessStreamReference.CreateFromUri(new Uri("ms-appx:///Assets/BlueColor.png"));
+            var blueMenuItem = RadialControllerMenuItem.CreateFromIcon("Blue", blueIcon);
             blueMenuItem.Invoked += (item, args) => SetDialControlledSlider(BlueSlider);
             _dial.Menu.Items.Add(blueMenuItem);
 
