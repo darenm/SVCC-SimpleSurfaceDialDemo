@@ -70,8 +70,8 @@ namespace SimpleSurfaceDialDemo
 
             _dial = RadialController.CreateForCurrentView();
 
-            _dial.RotationResolutionInDegrees = 1;
-            _dial.UseAutomaticHapticFeedback = false;
+            _dial.RotationResolutionInDegrees = 1; // default is 5
+            _dial.UseAutomaticHapticFeedback = false; // if less than 5, disable Haptic feedback
 
             //var redMenuItem = RadialControllerMenuItem.CreateFromKnownIcon("Red", RadialControllerMenuKnownIcon.Ruler);
             //var redMenuItem = RadialControllerMenuItem.CreateFromFontGlyph("Red", "R", "Segoe UI");
