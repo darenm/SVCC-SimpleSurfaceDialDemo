@@ -16,7 +16,9 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{x:Bind BackgroundBrush, Mode=OneWay}">
+    <Grid Background="{x:Bind BackgroundBrush, Mode=OneWay}"
+          IsHoldingEnabled="True"
+          Holding="UIElement_OnHolding">
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="#66FFFFFF"
@@ -57,6 +59,31 @@
                         Margin="24">Undo</Button>
             </StackPanel>
         </StackPanel>
+        
+        <!-- Fake OnScreen Menu -->
+        <Canvas x:Name="FakeMenu"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+              Visibility="Collapsed">
+            <Ellipse Width="480"
+                     Height="480"
+                     RenderTransformOrigin="0.5, 0.5">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="/Assets/ColorWheel.png"
+                                Stretch="None"/>
+                </Ellipse.Fill>
+                <Ellipse.RenderTransform>
+                    <CompositeTransform Rotation="{x:Bind RadialDegrees, Mode=TwoWay}"/>
+                </Ellipse.RenderTransform>
+
+            </Ellipse>
+
+            <Ellipse Fill="#FF1F1F1F"
+                     Canvas.Left="77"
+                     Canvas.Top="77"
+                     Width="326"
+                     Height="326"/>
+        </Canvas>
 
     </Grid>
 </Page>

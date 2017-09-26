@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BlueColor.png" />
+    <Content Include="Assets\ColorWheel.png" />
     <Content Include="Assets\GreenColor.png" />
     <Content Include="Assets\RedColor.png" />
     <Content Include="Properties\Default.rd.xml" />
