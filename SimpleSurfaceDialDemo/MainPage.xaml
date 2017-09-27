@@ -83,6 +83,13 @@
                      Canvas.Top="77"
                      Width="326"
                      Height="326"/>
+            
+            <Rectangle Stroke="Black"
+                       StrokeThickness="2"
+                       Width="80"
+                       Height="10"
+                       Canvas.Left="400"
+                       Canvas.Top="235"/>
         </Canvas>
 
     </Grid>
