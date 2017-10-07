@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26906.1
+VisualStudioVersion = 15.0.26929.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSurfaceDialDemo", "SimpleSurfaceDialDemo\SimpleSurfaceDialDemo.csproj", "{D5DE3308-0C5D-42F2-B071-CC0B7BC0B5FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{A4B02DDB-684D-4C31-96C5-7CD4687EB36B}"
+	ProjectSection(SolutionItems) = preProject
+		SVCC - Building Solutions With The Microsoft Dial.pptx = SVCC - Building Solutions With The Microsoft Dial.pptx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
