@@ -82,8 +82,12 @@ namespace SimpleSurfaceDialDemo
             // Clear menu
             var dialConfig = RadialControllerConfiguration.GetForCurrentView();
 
-            // And just leave the volume control
-            dialConfig.SetDefaultMenuItems(new[] {RadialControllerSystemMenuItemKind.Volume});
+            // And just leave the volume control and media controls
+            dialConfig.SetDefaultMenuItems(new[]
+            {
+                RadialControllerSystemMenuItemKind.Volume,
+                RadialControllerSystemMenuItemKind.NextPreviousTrack
+            });
 
             _dial = RadialController.CreateForCurrentView();
 
@@ -108,6 +112,21 @@ namespace SimpleSurfaceDialDemo
             _dial.Menu.Items.Add(blueMenuItem);
             _dial.RotationChanged += DialRotationToColor;
             _dial.ButtonClicked += (controller, args) => ApplyPreviewColor();
+
+            // handling screen contact if supported - Surface Studio & Surface Pro 4
+            _dial.ScreenContactStarted += DialOnScreenContactStarted;
+            // raised if dial is moved while touching the screen
+            _dial.ScreenContactContinued += DialOnScreenContactContinued;
+            _dial.ScreenContactEnded += DialOnScreenContactEnded;
+        }
+
+        private void SetDialControlledSlider(Slider slider)
+        {
+            _dial.RotationChanged -= DialRotationToColor;
+            _dial.RotationChanged += DialRotationToSlider;
+
+            _dialControlledSlider = slider;
+            _dialControlledSlider.Focus(FocusState.Programmatic);
         }
 
         private void DialRotationToSlider(object sender, RadialControllerRotationChangedEventArgs args)
@@ -128,15 +147,6 @@ namespace SimpleSurfaceDialDemo
             RedSlider.Value = color.R;
             GreenSlider.Value = color.G;
             BlueSlider.Value = color.B;
-        }
-
-        private void SetDialControlledSlider(Slider slider)
-        {
-            _dial.RotationChanged -= DialRotationToColor;
-            _dial.RotationChanged += DialRotationToSlider;
-
-            _dialControlledSlider = slider;
-            _dialControlledSlider.Focus(FocusState.Programmatic);
         }
 
         public void ApplyPreviewColor()
@@ -161,6 +171,36 @@ namespace SimpleSurfaceDialDemo
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #region On Screen Contact
+        private void DialOnScreenContactStarted(
+            RadialController sender,
+            RadialControllerScreenContactStartedEventArgs radialControllerScreenContactStartedEventArgs)
+        {
+            var contactCenter = radialControllerScreenContactStartedEventArgs.Contact.Position;
+            var bounds = radialControllerScreenContactStartedEventArgs.Contact.Bounds;
+
+            // position your UI or activate a region of controls as appropriate
+        }
+
+        private void DialOnScreenContactContinued(
+            RadialController sender,
+            RadialControllerScreenContactContinuedEventArgs radialControllerScreenContactContinuedEventArgs)
+        {
+            var contactCenter = radialControllerScreenContactContinuedEventArgs.Contact.Position;
+            var bounds = radialControllerScreenContactContinuedEventArgs.Contact.Bounds;
+
+            // update position your UI or activate a region of controls as appropriate
+        }
+
+        private void DialOnScreenContactEnded(
+            RadialController sender,
+            object o)
+        {
+            // reset your UI
+        }
+
+        #endregion
+
         private void UIElement_OnHolding(object sender, HoldingRoutedEventArgs e)
         {
             var dialConfig = RadialControllerConfiguration.GetForCurrentView();
@@ -172,20 +212,23 @@ namespace SimpleSurfaceDialDemo
                 // Allows the app to handle the push and hold activity
                 dialConfig.IsMenuSuppressed = true;
                 dialConfig.ActiveControllerWhenMenuIsSuppressed = _dial;
+
                 _dial.RotationChanged -= DialRotationToSlider;
                 _dial.RotationChanged += DialRotationToColor;
 
                 // This places the on-screen radial menu centered on the touch location
                 var position = e.GetPosition(this);
-                FakeMenu.Margin = new Thickness(position.X - 240, position.Y - 240, 0, 0);
-                FakeMenu.Visibility = Visibility.Visible;
+                OnScreenColorWheel.Margin = new Thickness(position.X - 240, position.Y - 240, 0, 0);
+                OnScreenColorWheel.Visibility = Visibility.Visible;
             }
             else
             {
                 dialConfig.IsMenuSuppressed = false;
+
                 _dial.RotationChanged += DialRotationToSlider;
                 _dial.RotationChanged -= DialRotationToColor;
-                FakeMenu.Visibility = Visibility.Collapsed;
+
+                OnScreenColorWheel.Visibility = Visibility.Collapsed;
             }
         }
     }

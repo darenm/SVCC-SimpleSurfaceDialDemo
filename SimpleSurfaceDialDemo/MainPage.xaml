@@ -60,8 +60,8 @@
             </StackPanel>
         </StackPanel>
         
-        <!-- Fake OnScreen Menu -->
-        <Canvas x:Name="FakeMenu"
+        <!-- OnScreen Menu -->
+        <Canvas x:Name="OnScreenColorWheel"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
               Visibility="Collapsed">
